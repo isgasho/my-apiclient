@@ -6,12 +6,11 @@ import (
 	"fmt"
 )
 
-// Create registers an existing bank account or creates a new one
-func Create(client *Client, payload *AccountData) (*AccountData, error) {
-
-	jsonPayload, err := json.Marshal(payload)
+// Create registers an existing bank account or creates a new one.
+func Create(client *Client, account *AccountData) (*AccountData, error) {
+	jsonPayload, err := json.Marshal(account)
 	if err != nil {
-		return &AccountData{}, err
+		return nil, err
 	}
 
 	path := fmt.Sprintf("/v1/organisation/accounts")
@@ -21,12 +20,11 @@ func Create(client *Client, payload *AccountData) (*AccountData, error) {
 		return nil, err
 	}
 
-	var createdData AccountData
-
-	err = json.Unmarshal(body, &createdData)
+	var newAccount AccountData
+	err = json.Unmarshal(body, &newAccount)
 	if err != nil {
-		return &AccountData{}, err
+		return nil, err
 	}
 
-	return &createdData, nil
+	return &newAccount, nil
 }

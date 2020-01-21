@@ -19,9 +19,9 @@ I have used `gopkg.in/retry.v1` to implement the exponential back-off as recomme
 
 # Usage
 
-Create a new instance of `apiclient` using the `New` function
-Use this instance of `apiclient` to call the required endpoint function
-Data is returned as a struct
+* Create a new instance of `apiclient` using the `New` function
+* Use this instance of `apiclient` to call the required endpoint function
+* Data is returned as a struct
 
 # Testing
 
@@ -33,6 +33,6 @@ For testing the Accounts API itself (the code pre-written by Form3) unit tests a
 
 # Docker
 
-I built my Dockerfile using `docker build -t my-apiclient .`
-I ran my Docker image using `docker run --rm my-apiclient:latest`
-I have tagged my Docker image and uploaded it to DockerHub. It is available at `https://hub.docker.com/u/rosalita`
+* I built my Dockerfile using `docker build -t my-apiclient .`
+* I ran my Docker image using `docker run --rm my-apiclient:latest`
+* I have tagged my Docker image and uploaded it to DockerHub. It is available at `https://hub.docker.com/u/rosalita`

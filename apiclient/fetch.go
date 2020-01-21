@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// Fetch gets a single account using the accountID
+// Fetch gets a single account using the accountID.
 func Fetch(client *Client, accountID string) (*AccountData, error) {
 	path := fmt.Sprintf("/v1/organisation/accounts/%s", accountID)
 
@@ -15,8 +15,7 @@ func Fetch(client *Client, accountID string) (*AccountData, error) {
 	}
 
 	var account AccountData
-	err = json.Unmarshal(body, &account)
-	if err != nil {
+	if err := json.Unmarshal(body, &account); err != nil {
 		return nil, err
 	}
 

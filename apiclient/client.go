@@ -12,32 +12,32 @@ import (
 	"gopkg.in/retry.v1"
 )
 
-// Client is the type used to interface with the Accounts API
+// Client is the type used to interface with the Accounts API.
 type Client struct {
 	BaseURL       string
 	HTTPClient    *http.Client
 	RetryStrategy retry.Strategy
 }
 
-// New creates a new instance of a Client
-func New(baseURL string, timeout time.Duration) *Client {
+// New creates a new instance of a Client.
+func New(baseURL string, limitTimeout time.Duration, clientTimeout time.Duration) *Client {
 	exp := retry.Exponential{
 		Initial: 10 * time.Millisecond,
 		Factor:  1.5,
 		Jitter:  true,
 	}
-	strategy := retry.LimitTime(60*time.Second, exp)
+	strategy := retry.LimitTime(limitTimeout, exp)
 
 	return &Client{
 		BaseURL: baseURL,
 		HTTPClient: &http.Client{
-			Timeout: timeout,
+			Timeout: clientTimeout,
 		},
 		RetryStrategy: strategy,
 	}
 }
 
-// DoRequest makes a request to the Accounts API and handles the response 
+// DoRequest makes a request to the Accounts API and handles the response.
 func (c *Client) DoRequest(method string, path string, params *ListParams, payload io.Reader) (body []byte, err error) {
 	reqURL, err := url.Parse(c.BaseURL)
 	if err != nil {
@@ -85,11 +85,11 @@ func (c *Client) DoRequest(method string, path string, params *ListParams, paylo
 			return nil, nil
 
 		default:
-			err = errors.New("Status Code Not OK")
+			err = errors.New("status code not ok")
 			return nil, err
 		}
 	}
 
-	err = errors.New("Retry timeout error")
+	err = errors.New("retry timeout error")
 	return nil, err
 }
